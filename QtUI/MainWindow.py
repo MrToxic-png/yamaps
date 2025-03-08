@@ -14,6 +14,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setFocus()
 
         self.switchThemeButton.clicked.connect(self.switch_theme)
+        self.searchObjectButton.clicked.connect(self.search_object)
 
         self.render_map()
 
@@ -22,6 +23,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def switch_theme(self):
         self.point_map.switch_theme()
+        self.render_map()
+
+    def search_object(self):
+        self.point_map.find_toponym(self.searchObjectLineEdit.text())
         self.render_map()
 
     def keyPressEvent(self, a0):

@@ -1,3 +1,7 @@
+import requests
+
+from .geocoder import Geocoder
+from .pointer import Pointer
 from .static_maps import get_static_maps_image
 
 START_POINT = (37.617698, 55.755864)
@@ -12,9 +16,14 @@ class PointMap:
         self._longitude, self._latitude = START_POINT
         self._zoom = START_ZOOM
         self._theme = 'light'
+        self._geocoder: Geocoder | None = None
 
     def get_image(self) -> bytes:
-        return get_static_maps_image(self._longitude, self._latitude, self._zoom, self._theme)
+        if self._geocoder:
+            pointer = Pointer(self._geocoder.longitude, self._geocoder.latitude, other_info='org')
+            return get_static_maps_image(self._longitude, self._latitude, self._zoom, self._theme, pointers=(pointer,))
+        else:
+            return get_static_maps_image(self._longitude, self._latitude, self._zoom, self._theme)
 
     def decrease_zoom(self):
         self._zoom = max(self._zoom - 1, 0)
@@ -44,3 +53,10 @@ class PointMap:
 
     def switch_theme(self):
         self._theme = THEME_SWITCH_DICT.get(self._theme)
+
+    def find_toponym(self, toponym: str):
+        try:
+            self._geocoder = Geocoder(toponym)
+            self._longitude, self._latitude = self._geocoder.point
+        except (ValueError, requests.exceptions.RequestException):
+            return
