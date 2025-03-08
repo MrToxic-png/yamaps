@@ -63,3 +63,8 @@ class PointMap:
 
     def clear_geocoder(self):
         self._geocoder = None
+
+    def get_geocoder_full_address(self):
+        if self._geocoder is None:
+            return None
+        return self._geocoder.full_address

@@ -29,11 +29,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def search_object(self):
         self.point_map.find_toponym(self.searchObjectLineEdit.text())
+        self.fill_address()
         self.render_map()
 
     def clear_object(self):
         self.point_map.clear_geocoder()
+        self.fullAddressLabel.clear()
         self.render_map()
+
+    def fill_address(self):
+        address = self.point_map.get_geocoder_full_address()
+        self.fullAddressLabel.setText(address)
 
     def keyPressEvent(self, a0):
         match a0.key():

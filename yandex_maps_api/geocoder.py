@@ -41,3 +41,7 @@ class Geocoder:
     @property
     def latitude(self) -> float:
         return self.point[1]
+
+    @property
+    def full_address(self) -> str:
+        return self._get_first_geo_object()['metaDataProperty']['GeocoderMetaData']['text']
