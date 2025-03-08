@@ -10,11 +10,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.point_map = PointMap()
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.setFocus()
+
+        self.switchThemeButton.clicked.connect(self.switch_theme)
 
         self.render_map()
 
     def render_map(self):
         self.image.setPixmap(QPixmap(QImage.fromData(self.point_map.get_image())))
+
+    def switch_theme(self):
+        self.point_map.switch_theme()
+        self.render_map()
 
     def keyPressEvent(self, a0):
         match a0.key():
@@ -30,7 +38,5 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.point_map.move_left()
             case Qt.Key.Key_Right:
                 self.point_map.move_right()
-
-        print(self.point_map._longitude, self.point_map._latitude)
 
         self.render_map()

@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'MainWindow.ui'
+# Form implementation generated from reading ui file '.\QtUI\ui\MainWindow.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -12,16 +12,19 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(600, 500)
+        MainWindow.resize(800, 500)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.image = QtWidgets.QLabel(parent=self.centralwidget)
         self.image.setGeometry(QtCore.QRect(0, 0, 600, 450))
         self.image.setText("")
         self.image.setObjectName("image")
+        self.switchThemeButton = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.switchThemeButton.setGeometry(QtCore.QRect(610, 0, 190, 40))
+        self.switchThemeButton.setObjectName("switchThemeButton")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 600, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
@@ -34,3 +37,4 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.switchThemeButton.setText(_translate("MainWindow", "Сменить тему"))
