@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication
-from QtUI.MainWindow import MainWindow
+from QtUI import MainWindow
 
 
 def except_hook(cls, exception, traceback):
