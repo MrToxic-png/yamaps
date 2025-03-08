@@ -76,6 +76,19 @@
      <string>Искать</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="clearObjectButton">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>200</y>
+      <width>190</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Сброс</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

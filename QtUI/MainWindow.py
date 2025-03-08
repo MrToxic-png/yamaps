@@ -1,8 +1,9 @@
-from PyQt6.QtWidgets import QMainWindow
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap, QImage
-from  PyQt6.QtCore import Qt
-from .ui import Ui_MainWindow
+from PyQt6.QtWidgets import QMainWindow
+
 from yandex_maps_api import PointMap
+from .ui import Ui_MainWindow
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -15,6 +16,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.switchThemeButton.clicked.connect(self.switch_theme)
         self.searchObjectButton.clicked.connect(self.search_object)
+        self.clearObjectButton.clicked.connect(self.clear_object)
 
         self.render_map()
 
@@ -27,6 +29,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def search_object(self):
         self.point_map.find_toponym(self.searchObjectLineEdit.text())
+        self.render_map()
+
+    def clear_object(self):
+        self.point_map.clear_geocoder()
         self.render_map()
 
     def keyPressEvent(self, a0):

@@ -60,3 +60,6 @@ class PointMap:
             self._longitude, self._latitude = self._geocoder.point
         except (ValueError, requests.exceptions.RequestException):
             return
+
+    def clear_geocoder(self):
+        self._geocoder = None
