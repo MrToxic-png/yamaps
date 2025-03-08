@@ -15,8 +15,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setFocus()
 
         self.switchThemeButton.clicked.connect(self.switch_theme)
+        self.searchObjectLineEdit.textChanged.connect(self.search_object)
         self.searchObjectButton.clicked.connect(self.search_object)
         self.clearObjectButton.clicked.connect(self.clear_object)
+        self.postalCodeCheckBox.toggled.connect(self.fill_address)
 
         self.render_map()
 
@@ -38,8 +40,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.render_map()
 
     def fill_address(self):
-        address = self.point_map.get_geocoder_full_address()
-        self.fullAddressLabel.setText(address)
+        postal_code = self.postalCodeCheckBox.isChecked()
+        address = self.point_map.get_geocoder_full_address(postal_code=postal_code)
+        if address:
+            self.fullAddressLabel.setText(address)
 
     def keyPressEvent(self, a0):
         match a0.key():

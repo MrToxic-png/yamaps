@@ -64,7 +64,10 @@ class PointMap:
     def clear_geocoder(self):
         self._geocoder = None
 
-    def get_geocoder_full_address(self):
+    def get_geocoder_full_address(self, postal_code: bool = False) -> str | None:
         if self._geocoder is None:
             return None
+        if postal_code and self._geocoder.postal_code:
+            return f'{self._geocoder.full_address}\nПочтовый индекс: {self._geocoder.postal_code}'
+
         return self._geocoder.full_address

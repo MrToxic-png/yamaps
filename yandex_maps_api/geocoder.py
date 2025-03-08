@@ -15,9 +15,6 @@ class Geocoder:
         if not response:
             raise requests.exceptions.RequestException('Error when handling the request')
 
-        with open('file.json', 'wb') as file:
-            file.write(response.content)
-
         self._full_json = response.json()
         self._name = toponym
         try:
@@ -45,3 +42,7 @@ class Geocoder:
     @property
     def full_address(self) -> str:
         return self._get_first_geo_object()['metaDataProperty']['GeocoderMetaData']['text']
+
+    @property
+    def postal_code(self) -> str | None:
+        return self._get_first_geo_object()['metaDataProperty']['GeocoderMetaData']['Address'].get('postal_code')
