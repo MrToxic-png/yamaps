@@ -61,3 +61,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.point_map.move_right()
 
         self.render_map()
+
+    def mousePressEvent(self, a0):
+        x, y = a0.pos().x(), a0.pos().y()
+        if 0 <= x <= 600 and 0 <= y <= 450:
+            self.point_map.find_object_from_picture_cords(x, y)
+            self.fill_address()
+            self.render_map()
