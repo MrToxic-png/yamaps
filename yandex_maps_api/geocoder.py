@@ -1,7 +1,8 @@
+from typing import Self
+
 import requests
 
-from config import GEOCODER_API_KEY
-from typing import Self
+from config import GEOCODER_API_KEY, SEARCH_API_KEY
 
 
 class Geocoder:
@@ -29,7 +30,8 @@ class Geocoder:
         geocoder_params = {
             'apikey': GEOCODER_API_KEY,
             'geocode': ', '.join(map(str, (longitude, latitude))),
-            'format': 'json'}
+            'format': 'json'
+        }
 
         response = requests.get(geocoder_api_server, params=geocoder_params)
         if not response:
@@ -41,6 +43,24 @@ class Geocoder:
         full_address = best_geo_object['metaDataProperty']['GeocoderMetaData']['text']
 
         return cls(full_address)
+
+    @classmethod
+    def find_nearest_organization(cls, longitude: float, latitude: float) -> Self:
+        search_api_server = 'https://search-maps.yandex.ru/v1/'
+        search_params = {
+            'apikey': SEARCH_API_KEY,
+            'text': ', '.join(map(str, (latitude, longitude))),
+            'lang': 'ru_RU'
+        }
+
+        response = requests.get(search_api_server, params=search_params)
+        if not response:
+            raise requests.exceptions.RequestException('Error when handling the request')
+
+        response_data = response.json()
+
+        best_object_address = response_data['features'][0]['properties']['GeocoderMetaData']['text']
+        return cls(best_object_address)
 
     def _get_first_geo_object(self):
         return self._full_json['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']

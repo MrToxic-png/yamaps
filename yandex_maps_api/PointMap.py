@@ -1,5 +1,6 @@
 import math
 
+import geopy.distance
 import pyproj
 import requests
 
@@ -79,7 +80,11 @@ class PointMap:
 
     def find_object_from_picture_cords(self, x: int, y: int):
         longitude, latitude = self._convert_picture_cords(x, y)
-        self._geocoder = self._find_from_cords(longitude, latitude)
+        self._geocoder = self._find_object_from_cords(longitude, latitude)
+
+    def find_organiztion_from_picture_cords(self, x: int, y: int):
+        longitude, latitude = self._convert_picture_cords(x, y)
+        self._find_organization_from_cords(longitude, latitude)
 
     def _convert_picture_cords(self, x: int, y: int) -> tuple[float, float]:
         wgs84 = pyproj.CRS("EPSG:4326")
@@ -108,5 +113,13 @@ class PointMap:
 
         return target_longitude, target_latitude
 
-    def _find_from_cords(self, longitude: float, latitude: float):
+    @staticmethod
+    def _find_object_from_cords(longitude: float, latitude: float):
         return Geocoder.from_cords(longitude, latitude)
+
+    def _find_organization_from_cords(self, longitude: float, latitude: float):
+        new_geocoder = Geocoder.find_nearest_organization(longitude, latitude)
+        distance = geopy.distance.great_circle((latitude, longitude),
+                                               (new_geocoder.latitude, new_geocoder.longitude)).meters
+        if distance < 50:
+            self._geocoder = new_geocoder
